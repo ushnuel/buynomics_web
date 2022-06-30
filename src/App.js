@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { Suspense } from "react";
+import * as ROUTES from "./constants/routes";
+import { Routes, Route } from "react-router-dom";
+import OrdersContextProvider from "./context/OrdersContext";
+import IntermidiaryListContextProvider from "./context/IntermidiaryListContext";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <IntermidiaryListContextProvider>
+      <OrdersContextProvider>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" index element={<ROUTES.Home />} />
+            <Route path="intermidiaries" index element={<ROUTES.AddIntermidiary />} />
+            <Route path="intermidiaries/:id" index element={<ROUTES.EditIntermidiary />} />
+          </Routes>
+        </Suspense>
+      </OrdersContextProvider>
+    </IntermidiaryListContextProvider>
   );
 }
 
